@@ -1,0 +1,226 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.nova.browser"
+4    android:versionCode="1"
+5    android:versionName="1.0.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="26"
+9        android:targetSdkVersion="34" />
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:4:5-67
+11-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:4:22-64
+12    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+12-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:5:5-79
+12-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:5:22-76
+13    <!-- Android 13+: runtime permission, requested when the user first opens Downloads (not at launch). -->
+14    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+14-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:7:5-77
+14-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:7:22-74
+15    <!-- Declared only so WebView getUserMedia() requests can be forwarded to the OS prompt; requested per site request, never at launch. -->
+16    <uses-permission android:name="android.permission.CAMERA" />
+16-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:9:5-65
+16-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:9:22-62
+17    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+17-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:10:5-71
+17-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:10:22-68
+18    <!-- Legacy storage write only for API 28 and below (DownloadManager public Downloads dir). -->
+19    <uses-permission
+19-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:12:5-108
+20        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+20-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:12:22-78
+21        android:maxSdkVersion="28" />
+21-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:12:79-105
+22    <!--
+23         Removed (were declared but unused or unjustified): ACCESS_WIFI_STATE, FOREGROUND_SERVICE, FOREGROUND_SERVICE_SPECIAL_USE (no app service
+24         exists; the WireGuard VpnService and TorService come from their libraries), MODIFY_AUDIO_SETTINGS, ACCESS_FINE/COARSE_LOCATION
+25         (geolocation is denied for all pages until a real prompt UI exists).
+26    -->
+27
+28    <uses-feature
+28-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:17:5-85
+29        android:name="android.hardware.camera"
+29-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:17:19-57
+30        android:required="false" />
+30-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:17:58-82
+31    <uses-feature
+31-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:18:5-89
+32        android:name="android.hardware.microphone"
+32-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:18:19-61
+33        android:required="false" />
+33-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:18:62-86
+34
+35    <permission
+35-->[androidx.core:core:1.13.1] C:\Users\91821\.gradle\caches\8.9\transforms\75ea9556da06a2ddba1460016a6e4412\transformed\core-1.13.1\AndroidManifest.xml:22:5-24:47
+36        android:name="com.nova.browser.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+36-->[androidx.core:core:1.13.1] C:\Users\91821\.gradle\caches\8.9\transforms\75ea9556da06a2ddba1460016a6e4412\transformed\core-1.13.1\AndroidManifest.xml:23:9-81
+37        android:protectionLevel="signature" />
+37-->[androidx.core:core:1.13.1] C:\Users\91821\.gradle\caches\8.9\transforms\75ea9556da06a2ddba1460016a6e4412\transformed\core-1.13.1\AndroidManifest.xml:24:9-44
+38
+39    <uses-permission android:name="com.nova.browser.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+39-->[androidx.core:core:1.13.1] C:\Users\91821\.gradle\caches\8.9\transforms\75ea9556da06a2ddba1460016a6e4412\transformed\core-1.13.1\AndroidManifest.xml:26:5-97
+39-->[androidx.core:core:1.13.1] C:\Users\91821\.gradle\caches\8.9\transforms\75ea9556da06a2ddba1460016a6e4412\transformed\core-1.13.1\AndroidManifest.xml:26:22-94
+40
+41    <application
+41-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:20:5-52:19
+42        android:name="com.nova.browser.NovaApp"
+42-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:21:9-32
+43        android:allowBackup="false"
+43-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:22:9-36
+44        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+44-->[androidx.core:core:1.13.1] C:\Users\91821\.gradle\caches\8.9\transforms\75ea9556da06a2ddba1460016a6e4412\transformed\core-1.13.1\AndroidManifest.xml:28:18-86
+45        android:dataExtractionRules="@xml/data_extraction_rules"
+45-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:24:9-65
+46        android:debuggable="true"
+47        android:enableOnBackInvokedCallback="true"
+47-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:31:9-51
+48        android:extractNativeLibs="false"
+49        android:fullBackupContent="@xml/backup_rules"
+49-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:23:9-54
+50        android:icon="@mipmap/ic_launcher"
+50-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:26:9-43
+51        android:label="@string/app_name"
+51-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:28:9-41
+52        android:networkSecurityConfig="@xml/network_security_config"
+52-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:25:9-69
+53        android:roundIcon="@mipmap/ic_launcher_round"
+53-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:27:9-54
+54        android:supportsRtl="true"
+54-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:29:9-35
+55        android:theme="@style/Theme.Nova"
+55-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:32:9-42
+56        android:usesCleartextTraffic="false" >
+56-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:30:9-45
+57
+58        <!-- The only component Nova itself exports: launcher + http(s) VIEW. It validates every incoming URL (UrlPolicy). -->
+59        <activity
+59-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:35:9-51:20
+60            android:name="com.nova.browser.MainActivity"
+60-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:36:13-41
+61            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout|uiMode"
+61-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:38:13-113
+62            android:exported="true"
+62-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:37:13-36
+63            android:windowSoftInputMode="adjustResize" >
+63-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:39:13-55
+64            <intent-filter>
+64-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:40:13-43:29
+65                <action android:name="android.intent.action.MAIN" />
+65-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:41:17-69
+65-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:41:25-66
+66
+67                <category android:name="android.intent.category.LAUNCHER" />
+67-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:42:17-77
+67-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:42:27-74
+68            </intent-filter>
+69            <intent-filter>
+69-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:44:13-50:29
+70                <action android:name="android.intent.action.VIEW" />
+70-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:45:17-69
+70-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:45:25-66
+71
+72                <category android:name="android.intent.category.DEFAULT" />
+72-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:46:17-76
+72-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:46:27-73
+73                <category android:name="android.intent.category.BROWSABLE" />
+73-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:47:17-78
+73-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:47:27-75
+74
+75                <data android:scheme="http" />
+75-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:48:17-47
+75-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:48:23-44
+76                <data android:scheme="https" />
+76-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:48:17-47
+76-->D:\Download\NOVA-BROWSER-SECURITY-UPDATE (1)\nova\app\src\main\AndroidManifest.xml:48:23-44
+77            </intent-filter>
+78        </activity>
+79
+80        <provider
+80-->[androidx.emoji2:emoji2:1.3.0] C:\Users\91821\.gradle\caches\8.9\transforms\139fef1c9d2776d43e782b25c607785b\transformed\emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
+81            android:name="androidx.startup.InitializationProvider"
+81-->[androidx.emoji2:emoji2:1.3.0] C:\Users\91821\.gradle\caches\8.9\transforms\139fef1c9d2776d43e782b25c607785b\transformed\emoji2-1.3.0\AndroidManifest.xml:25:13-67
+82            android:authorities="com.nova.browser.androidx-startup"
+82-->[androidx.emoji2:emoji2:1.3.0] C:\Users\91821\.gradle\caches\8.9\transforms\139fef1c9d2776d43e782b25c607785b\transformed\emoji2-1.3.0\AndroidManifest.xml:26:13-68
+83            android:exported="false" >
+83-->[androidx.emoji2:emoji2:1.3.0] C:\Users\91821\.gradle\caches\8.9\transforms\139fef1c9d2776d43e782b25c607785b\transformed\emoji2-1.3.0\AndroidManifest.xml:27:13-37
+84            <meta-data
+84-->[androidx.emoji2:emoji2:1.3.0] C:\Users\91821\.gradle\caches\8.9\transforms\139fef1c9d2776d43e782b25c607785b\transformed\emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
+85                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+85-->[androidx.emoji2:emoji2:1.3.0] C:\Users\91821\.gradle\caches\8.9\transforms\139fef1c9d2776d43e782b25c607785b\transformed\emoji2-1.3.0\AndroidManifest.xml:30:17-75
+86                android:value="androidx.startup" />
+86-->[androidx.emoji2:emoji2:1.3.0] C:\Users\91821\.gradle\caches\8.9\transforms\139fef1c9d2776d43e782b25c607785b\transformed\emoji2-1.3.0\AndroidManifest.xml:31:17-49
+87            <meta-data
+87-->[androidx.lifecycle:lifecycle-process:2.8.4] C:\Users\91821\.gradle\caches\8.9\transforms\40434fe7d53af9b80a9c456825aa964f\transformed\lifecycle-process-2.8.4\AndroidManifest.xml:29:13-31:52
+88                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+88-->[androidx.lifecycle:lifecycle-process:2.8.4] C:\Users\91821\.gradle\caches\8.9\transforms\40434fe7d53af9b80a9c456825aa964f\transformed\lifecycle-process-2.8.4\AndroidManifest.xml:30:17-78
+89                android:value="androidx.startup" />
+89-->[androidx.lifecycle:lifecycle-process:2.8.4] C:\Users\91821\.gradle\caches\8.9\transforms\40434fe7d53af9b80a9c456825aa964f\transformed\lifecycle-process-2.8.4\AndroidManifest.xml:31:17-49
+90            <meta-data
+90-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\91821\.gradle\caches\8.9\transforms\a32939e4304f2e550433c222a70792ec\transformed\profileinstaller-1.3.1\AndroidManifest.xml:29:13-31:52
+91                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+91-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\91821\.gradle\caches\8.9\transforms\a32939e4304f2e550433c222a70792ec\transformed\profileinstaller-1.3.1\AndroidManifest.xml:30:17-85
+92                android:value="androidx.startup" />
+92-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\91821\.gradle\caches\8.9\transforms\a32939e4304f2e550433c222a70792ec\transformed\profileinstaller-1.3.1\AndroidManifest.xml:31:17-49
+93        </provider>
+94
+95        <service
+95-->[com.wireguard.android:tunnel:1.0.20230706] C:\Users\91821\.gradle\caches\8.9\transforms\85f44e78579ea2d3d655f194fc02766e\transformed\tunnel-1.0.20230706\AndroidManifest.xml:12:9-19:19
+96            android:name="com.wireguard.android.backend.GoBackend$VpnService"
+96-->[com.wireguard.android:tunnel:1.0.20230706] C:\Users\91821\.gradle\caches\8.9\transforms\85f44e78579ea2d3d655f194fc02766e\transformed\tunnel-1.0.20230706\AndroidManifest.xml:13:13-78
+97            android:exported="false"
+97-->[com.wireguard.android:tunnel:1.0.20230706] C:\Users\91821\.gradle\caches\8.9\transforms\85f44e78579ea2d3d655f194fc02766e\transformed\tunnel-1.0.20230706\AndroidManifest.xml:14:13-37
+98            android:permission="android.permission.BIND_VPN_SERVICE" >
+98-->[com.wireguard.android:tunnel:1.0.20230706] C:\Users\91821\.gradle\caches\8.9\transforms\85f44e78579ea2d3d655f194fc02766e\transformed\tunnel-1.0.20230706\AndroidManifest.xml:15:13-69
+99            <intent-filter>
+99-->[com.wireguard.android:tunnel:1.0.20230706] C:\Users\91821\.gradle\caches\8.9\transforms\85f44e78579ea2d3d655f194fc02766e\transformed\tunnel-1.0.20230706\AndroidManifest.xml:16:13-18:29
+100                <action android:name="android.net.VpnService" />
+100-->[com.wireguard.android:tunnel:1.0.20230706] C:\Users\91821\.gradle\caches\8.9\transforms\85f44e78579ea2d3d655f194fc02766e\transformed\tunnel-1.0.20230706\AndroidManifest.xml:17:17-65
+100-->[com.wireguard.android:tunnel:1.0.20230706] C:\Users\91821\.gradle\caches\8.9\transforms\85f44e78579ea2d3d655f194fc02766e\transformed\tunnel-1.0.20230706\AndroidManifest.xml:17:25-62
+101            </intent-filter>
+102        </service>
+103
+104        <receiver
+104-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\91821\.gradle\caches\8.9\transforms\a32939e4304f2e550433c222a70792ec\transformed\profileinstaller-1.3.1\AndroidManifest.xml:34:9-52:20
+105            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+105-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\91821\.gradle\caches\8.9\transforms\a32939e4304f2e550433c222a70792ec\transformed\profileinstaller-1.3.1\AndroidManifest.xml:35:13-76
+106            android:directBootAware="false"
+106-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\91821\.gradle\caches\8.9\transforms\a32939e4304f2e550433c222a70792ec\transformed\profileinstaller-1.3.1\AndroidManifest.xml:36:13-44
+107            android:enabled="true"
+107-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\91821\.gradle\caches\8.9\transforms\a32939e4304f2e550433c222a70792ec\transformed\profileinstaller-1.3.1\AndroidManifest.xml:37:13-35
+108            android:exported="true"
+108-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\91821\.gradle\caches\8.9\transforms\a32939e4304f2e550433c222a70792ec\transformed\profileinstaller-1.3.1\AndroidManifest.xml:38:13-36
+109            android:permission="android.permission.DUMP" >
+109-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\91821\.gradle\caches\8.9\transforms\a32939e4304f2e550433c222a70792ec\transformed\profileinstaller-1.3.1\AndroidManifest.xml:39:13-57
+110            <intent-filter>
+110-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\91821\.gradle\caches\8.9\transforms\a32939e4304f2e550433c222a70792ec\transformed\profileinstaller-1.3.1\AndroidManifest.xml:40:13-42:29
+111                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+111-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\91821\.gradle\caches\8.9\transforms\a32939e4304f2e550433c222a70792ec\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:17-91
+111-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\91821\.gradle\caches\8.9\transforms\a32939e4304f2e550433c222a70792ec\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:25-88
+112            </intent-filter>
+113            <intent-filter>
+113-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\91821\.gradle\caches\8.9\transforms\a32939e4304f2e550433c222a70792ec\transformed\profileinstaller-1.3.1\AndroidManifest.xml:43:13-45:29
+114                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+114-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\91821\.gradle\caches\8.9\transforms\a32939e4304f2e550433c222a70792ec\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:17-85
+114-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\91821\.gradle\caches\8.9\transforms\a32939e4304f2e550433c222a70792ec\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:25-82
+115            </intent-filter>
+116            <intent-filter>
+116-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\91821\.gradle\caches\8.9\transforms\a32939e4304f2e550433c222a70792ec\transformed\profileinstaller-1.3.1\AndroidManifest.xml:46:13-48:29
+117                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+117-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\91821\.gradle\caches\8.9\transforms\a32939e4304f2e550433c222a70792ec\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:17-88
+117-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\91821\.gradle\caches\8.9\transforms\a32939e4304f2e550433c222a70792ec\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:25-85
+118            </intent-filter>
+119            <intent-filter>
+119-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\91821\.gradle\caches\8.9\transforms\a32939e4304f2e550433c222a70792ec\transformed\profileinstaller-1.3.1\AndroidManifest.xml:49:13-51:29
+120                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+120-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\91821\.gradle\caches\8.9\transforms\a32939e4304f2e550433c222a70792ec\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:17-95
+120-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\91821\.gradle\caches\8.9\transforms\a32939e4304f2e550433c222a70792ec\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:25-92
+121            </intent-filter>
+122        </receiver>
+123
+124        <service android:name="org.torproject.jni.TorService" />
+124-->[info.guardianproject:tor-android:0.4.7.14] C:\Users\91821\.gradle\caches\8.9\transforms\5de2004c9ea7bf3f7f2c69fcb98f1763\transformed\tor-android-0.4.7.14\AndroidManifest.xml:12:9-65
+124-->[info.guardianproject:tor-android:0.4.7.14] C:\Users\91821\.gradle\caches\8.9\transforms\5de2004c9ea7bf3f7f2c69fcb98f1763\transformed\tor-android-0.4.7.14\AndroidManifest.xml:12:18-62
+125    </application>
+126
+127</manifest>
