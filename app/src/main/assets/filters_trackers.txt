@@ -1,4 +1,4 @@
-! Nova bundled list (hand-curated, 18 rules). ABP syntax. Not EasyList; see README for importing EasyList/EasyPrivacy.
+! Nova bundled list (hand-curated, 29 rules). ABP syntax. Not EasyList; see README for importing EasyList/EasyPrivacy.
 ||google-analytics.com^
 ||googletagmanager.com^
 ||googletagservices.com^
@@ -17,3 +17,14 @@
 ||analytics.twitter.com^
 ||analytics.yahoo.com^
 ||mc.yandex.ru^
+||addthis.com^
+||bluekai.com^
+||chartbeat.com^
+||clarity.ms^
+||crazyegg.com^
+||demdex.net^
+||fullstory.com^
+||krxd.net^
+||mouseflow.com^
+||omtrdc.net^
+||tapad.com^

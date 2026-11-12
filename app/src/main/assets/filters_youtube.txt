@@ -1,0 +1,6 @@
+! Nova YouTube network rules (ad-serving and ad-tracking endpoints). Loaded only when YouTube protection is on.
+! In-stream video ads are served from the same video hosts as the content and are NOT covered by these rules.
+||youtube.com/pagead/
+||youtube.com/api/stats/ads^
+||youtube.com/ptracking^
+||youtube.com/get_midroll_info

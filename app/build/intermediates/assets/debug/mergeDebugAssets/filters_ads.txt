@@ -1,4 +1,4 @@
-! Nova bundled list (hand-curated, 44 rules). ABP syntax. Not EasyList; see README for importing EasyList/EasyPrivacy.
+! Nova bundled list (hand-curated, 61 rules). ABP syntax. Not EasyList; see README for importing EasyList/EasyPrivacy.
 ||doubleclick.net^
 ||googlesyndication.com^
 ||googleadservices.com^
@@ -43,3 +43,21 @@
 ||sharethrough.com^
 ||teads.tv^
 ||yandex.ru/ads^
+! --- additional ad networks / popup & push networks ---
+||2mdn.net^
+||adroll.com^
+||adtechus.com^
+||adskeeper.com^
+||adsafeprotected.com^
+||bidvertiser.com^
+||doubleverify.com^
+||ero-advertising.com^
+||evadav.com^
+||exosrv.com^
+||indexww.com^
+||lijit.com^
+||monetag.com^
+||perfectaudience.com^
+||richads.com^
+||sovrn.com^
+||zeropark.com^

@@ -112,8 +112,33 @@ fun PrivacyVpnScreen(app: NovaApp, requestVpnPermission: (onGranted: () -> Unit)
             Card {
                 Text("Shields", style = MaterialTheme.typography.titleLarge)
                 Row(verticalAlignment = Alignment.CenterVertically) { Text("Ad & tracker blocking", Modifier.weight(1f)); Switch(prefs.adBlockEnabled, { prefs.adBlockEnabled = it; prefs.save() }) }
+                Row(verticalAlignment = Alignment.CenterVertically) { Text("YouTube ad protection", Modifier.weight(1f)); Switch(prefs.youtubeProtection, { prefs.youtubeProtection = it; prefs.save(); app.adBlock.settingsChanged() }) }
+                Row(verticalAlignment = Alignment.CenterVertically) { Text("Tracker protection", Modifier.weight(1f)); Switch(prefs.trackerProtection, { prefs.trackerProtection = it; prefs.save() }) }
+                Row(verticalAlignment = Alignment.CenterVertically) { Text("Hide ad boxes on pages", Modifier.weight(1f)); Switch(prefs.cosmeticFiltering, { prefs.cosmeticFiltering = it; prefs.save() }) }
                 Text("Ads blocked: ${prefs.adsBlocked}   Trackers blocked: ${prefs.trackersBlocked}")
-                Text("Counts are real blocked requests since install. Cosmetic rules, redirects and service-worker requests are not covered.", style = MaterialTheme.typography.labelSmall)
+                Text("Counts are real blocked requests since install. Ads inside YouTube videos, ads from the same host as the content, and service-worker requests are not fully covered.", style = MaterialTheme.typography.labelSmall)
+                var subTick by remember { mutableStateOf(0) }
+                var subBusy by remember { mutableStateOf(false) }
+                val statuses = remember(subTick) { app.adBlock.subscriptionStatus() }
+                Text("Filter lists", style = MaterialTheme.typography.titleMedium)
+                statuses.forEach { st ->
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Column(Modifier.weight(1f)) {
+                            Text(st.title)
+                            Text(if (st.lastUpdatedMs > 0) "Last updated ${java.text.DateFormat.getDateTimeInstance().format(java.util.Date(st.lastUpdatedMs))}" else "Not downloaded yet", style = MaterialTheme.typography.labelSmall)
+                            st.error?.let { Text("Last update failed: $it. The cached copy is still used.", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.error) }
+                        }
+                        Switch(st.enabled, { prefs.setSubEnabled(st.id, it); subTick++; app.adBlock.settingsChanged() })
+                    }
+                }
+                Button({
+                    subBusy = true
+                    scope.launch {
+                        kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) { app.adBlock.refreshSubscriptionsIfDue(force = true) }
+                        subBusy = false; subTick++
+                    }
+                }, enabled = !subBusy, modifier = Modifier.fillMaxWidth()) { Text(if (subBusy) "Checking…" else "Check filter lists now") }
+                Text("Lists refresh automatically at most once a week. Failed downloads keep the last copy.", style = MaterialTheme.typography.labelSmall)
                 val ps = app.adBlock.parseStats()
                 Text("Rules active: ${ps.blockRules} block, ${ps.exceptionRules} exceptions. Skipped: ${ps.cosmeticSkipped} cosmetic, ${ps.unsupportedSkipped} unsupported, ${ps.malformed} malformed.", style = MaterialTheme.typography.labelSmall)
                 var listMsg by remember { mutableStateOf<String?>(null) }

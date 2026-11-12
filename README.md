@@ -47,8 +47,26 @@ Legend: **Verified** = logic unit-tested on JVM. **Written** = source exists, ne
 - **Private tab**: separate cookie jar, storage and cache (WebView profile `nova_private`), no history/session persistence, FLAG_SECURE. Deleted when the last private tab closes and on next start. **Limits:** all private tabs share one profile; the browser process, DNS cache and any proxy/VPN are device-wide; the system DownloadManager is shared (private downloads appear in system Downloads and never receive cookies); it gives **no network anonymity**. It is not labelled "fully isolated" and should not be.
 - **Tor mode**: all WebView page traffic goes through Tor's SOCKS proxy (applies to normal and private tabs). Nothing loads unless Tor is confirmed ready; no direct fallback. Downloads are disabled in Tor mode. Not Tor Browser: no fingerprinting protection, WebRTC not covered, not leak-tested.
 
-## Ad blocker: what it can and cannot do
-`shouldInterceptRequest` sees main-frame and subresource requests made by page content, with an *inferred* resource type. It cannot see bodies, does not cover service-worker traffic, and cannot do cosmetic filtering, `$redirect`, `$removeparam` or scriptlets. Such rules are parsed, counted ("skipped") and **never applied**. This is not a browser-extension-compatible blocker. Bundled lists are 62 hand-picked hosts, not EasyList; add EasyList/EasyPrivacy yourself via a custom https list (check each list's licence). Third-party detection uses a short multi-part-TLD list rather than the full Public Suffix List.
+## Ad blocker (V3): what it does and what it cannot do
+Components (`adblock/`, `core/`):
+- **Network rules** (`FilterEngine`): bundled `filters_ads.txt` (61 rules) and `filters_trackers.txt` (29 rules); YouTube endpoints in `filters_youtube.txt` (loaded only when YouTube protection is on); EasyList and EasyPrivacy as optional subscriptions; one optional custom https list.
+- **Element hiding** (`CosmeticRules`): `##selector` rules from `filters_cosmetic.txt`, EasyList and custom lists are injected as a stylesheet. Exception rules (`#@#`) are ignored (see AUDIT_V3.md).
+- **YouTube handler** (`YouTubeScript`, versioned `3.0.0`): runs only on youtube.com. A MutationObserver (debounced) and YouTube's SPA navigation events trigger checks. While an ad is confirmed it mutes the video, clicks a skip button or closes an overlay, and restores the mute state afterwards. It never seeks.
+- **Navigations and pop-ups:** top-level navigations, redirect hops and pop-up targets are checked against the same rules.
+
+Subscriptions: EasyList (`https://easylist.to/easylist/easylist.txt`) and EasyPrivacy (`https://easylist.to/easylist/easyprivacy.txt`) are enabled by default. They refresh at most once a week, only over HTTPS, and never on every launch. A failed download keeps the cached copy and retries no sooner than 12 hours later. "Check filter lists now" forces a refresh. Downloads are validated (size, content, no HTML) before they are installed.
+
+Toggles (Privacy tab → Shields): master ad & tracker blocking, YouTube ad protection, tracker protection, hide ad boxes on pages. Per-list switches sit under "Filter lists".
+
+Rule loading runs on a background thread. Until the first load finishes the engine is empty, so nothing is blocked for those few milliseconds.
+
+**Cannot be done with this design, so do not expect it:**
+- Zero ads. Some ads come from the same host as the content (in-stream YouTube video ads, sponsored feed posts) and cannot be told apart by URL.
+- Non-skippable YouTube ads: they play muted until they end.
+- Anti-adblock walls are not bypassed.
+- Service-worker requests are not seen by `shouldInterceptRequest` (a ServiceWorkerClient is not installed).
+- Malware or phishing feeds are not bundled. Chromium Safe Browsing is on.
+- YouTube's markup changes; the selectors may need updating.
 
 ## Permissions
 INTERNET, ACCESS_NETWORK_STATE; POST_NOTIFICATIONS (asked on first Downloads visit); CAMERA / RECORD_AUDIO only when a site requests them (https only, per request); WRITE_EXTERNAL_STORAGE ≤ API 28. VPN permission via the system `VpnService.prepare` dialog. No location permission (geolocation denied).

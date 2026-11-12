@@ -41,6 +41,12 @@ class Prefs(ctx: Context) {
     var searchEngineId by mutableStateOf(sp.getString("se", "duckduckgo")!!)
     var privateSearchEngineId by mutableStateOf(sp.getString("pse", "duckduckgo")!!)
     var adBlockEnabled by mutableStateOf(sp.getBoolean("adblock", true))
+    /** YouTube: network rules for ad endpoints plus the in-page ad handler. Independent of the master switch's other parts. */
+    var youtubeProtection by mutableStateOf(sp.getBoolean("yt_protect", true))
+    /** Tracker rules (analytics, tracking pixels). Ad rules are not affected by this switch. */
+    var trackerProtection by mutableStateOf(sp.getBoolean("trk_protect", true))
+    /** Element hiding (##) rules: removes ad boxes from pages. */
+    var cosmeticFiltering by mutableStateOf(sp.getBoolean("cosmetic", true))
     var httpsOnly by mutableStateOf(sp.getBoolean("https", true))
     var desktopMode by mutableStateOf(sp.getBoolean("desktop", false))
     var fontScale by mutableStateOf(sp.getInt("font", 100))
@@ -51,9 +57,20 @@ class Prefs(ctx: Context) {
 
     fun save() = sp.edit()
         .putString("theme", theme.name).putString("se", searchEngineId).putString("pse", privateSearchEngineId)
-        .putBoolean("adblock", adBlockEnabled).putBoolean("https", httpsOnly).putBoolean("desktop", desktopMode)
+        .putBoolean("adblock", adBlockEnabled).putBoolean("yt_protect", youtubeProtection)
+        .putBoolean("trk_protect", trackerProtection).putBoolean("cosmetic", cosmeticFiltering).putBoolean("https", httpsOnly).putBoolean("desktop", desktopMode)
         .putInt("font", fontScale).putBoolean("autoclear", autoClear).putBoolean("tpc", blockThirdPartyCookies)
         .putString("home", homePage).putString("dns", secureDns).apply()
+
+    // ---- filter subscriptions (EasyList / EasyPrivacy): per-list state, persisted immediately ----
+    fun subEnabled(id: String): Boolean = sp.getBoolean("sub_on_$id", true)
+    fun setSubEnabled(id: String, on: Boolean) = sp.edit().putBoolean("sub_on_$id", on).apply()
+    fun subUpdated(id: String): Long = sp.getLong("sub_ts_$id", 0L)
+    fun setSubUpdated(id: String, ms: Long) = sp.edit().putLong("sub_ts_$id", ms).apply()
+    fun subAttempted(id: String): Long = sp.getLong("sub_try_$id", 0L)
+    fun setSubAttempted(id: String, ms: Long) = sp.edit().putLong("sub_try_$id", ms).apply()
+    fun subError(id: String): String? = sp.getString("sub_err_$id", null)
+    fun setSubError(id: String, msg: String?) = sp.edit().apply { if (msg == null) remove("sub_err_$id") else putString("sub_err_$id", msg) }.apply()
 
     // ---- stats ----
     var adsBlocked by mutableStateOf(sp.getInt("ads", 0))

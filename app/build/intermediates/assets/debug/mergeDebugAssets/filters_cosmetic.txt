@@ -1,0 +1,19 @@
+! Nova bundled element-hiding rules (hand-curated, ABP syntax). Hides ad boxes that network blocking cannot stop.
+##.adsbygoogle
+##ins.adsbygoogle
+##[id^="google_ads_iframe"]
+##[id^="div-gpt-ad"]
+##iframe[src*="doubleclick.net"]
+##iframe[src*="googlesyndication.com"]
+##div[data-ad-slot]
+! YouTube: promoted videos, ad banners and in-player ad overlays
+youtube.com##ytd-display-ad-renderer
+youtube.com##ytd-promoted-sparkles-web-renderer
+youtube.com##ytd-ad-slot-renderer
+youtube.com##ytd-in-feed-ad-layout-renderer
+youtube.com##ytd-banner-promo-renderer
+youtube.com##ytd-action-companion-ad-renderer
+youtube.com##.ytp-ad-overlay-container
+youtube.com##.ytp-ad-image-overlay
+youtube.com##.ytp-ad-module
+youtube.com##ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-ads"]

@@ -163,4 +163,49 @@ class FilterListValidatorTest {
     @Test fun goodListAccepted() = assertTrue(FilterListValidator.validateContent("! list\n||ads.example.net^\n||t.example.net^\$third-party\n") is FilterListValidator.Verdict.Ok)
     @Test fun blockEverythingListRejected() = assertTrue(FilterListValidator.validateContent("||example.org^\n||wikipedia.org^\n||github.com^\n||mozilla.org^\n") is FilterListValidator.Verdict.Rejected)
     @Test fun oversizedRejected() = assertTrue(FilterListValidator.validateContent("||a.com^", byteLength = FilterListValidator.MAX_BYTES + 1) is FilterListValidator.Verdict.Rejected)
+
+    // --- top-level navigations and pop-up targets ---
+    private fun nav(e: FilterEngine, url: String, page: String? = "news.com") = e.decideNavigation(url, page)
+
+    @Test fun popupToAdHostIsBlocked() {
+        val e = eng("||doubleclick.net^")
+        assertTrue(nav(e, "https://ad.doubleclick.net/clk?id=1").blocked)
+    }
+    @Test fun redirectHopToBlockedHostIsBlocked() {
+        val e = eng("||popads.net^")
+        assertTrue(nav(e, "https://popads.net/go?x=1").blocked)
+    }
+    @Test fun navigationToCleanSiteIsAllowed() {
+        val e = eng("||doubleclick.net^")
+        assertFalse(nav(e, "https://example.org/article").blocked)
+    }
+    @Test fun lookalikeNavigationIsNotBlocked() {
+        val e = eng("||ads.net^")
+        assertFalse(nav(e, "https://myads.net/").blocked)
+    }
+    @Test fun scriptOnlyRuleDoesNotBlockNavigation() {
+        val e = eng("||cdn.tracker.example^\$script")
+        assertFalse(nav(e, "https://cdn.tracker.example/page").blocked)
+        assertTrue(d(e, "https://cdn.tracker.example/x.js", "news.com", ResourceType.SCRIPT).blocked)
+    }
+    @Test fun imageOnlyRuleDoesNotBlockNavigation() {
+        val e = eng("||pix.example^\$image")
+        assertFalse(nav(e, "https://pix.example/").blocked)
+    }
+    @Test fun navigationExceptionIsHonoured() {
+        val e = eng("||ads.example^", "@@||ads.example/allowed^")
+        assertTrue(nav(e, "https://ads.example/blocked").blocked)
+        assertFalse(nav(e, "https://ads.example/allowed").blocked)
+    }
+    @Test fun navigationBlockDecisionReportsCategory() {
+        val e = eng("||t.example^", cat = FilterCategory.TRACKERS)
+        val dec = nav(e, "https://t.example/")
+        assertTrue(dec.blocked)
+        assertEquals(FilterCategory.TRACKERS, dec.category)
+    }
+    @Test fun thirdPartyPopupRuleAppliesAcrossSites() {
+        val e = eng("||pop.example^\$third-party")
+        assertTrue(nav(e, "https://pop.example/x", "news.com").blocked)
+        assertFalse(nav(e, "https://pop.example/x", "pop.example").blocked)
+    }
 }

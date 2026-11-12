@@ -25,6 +25,8 @@ class NovaApp : Application() {
         vpn = VpnEngine(this, prefs)
         tor = TorEngine(this)
         tabs = TabManager(this)
+        // Weekly filter-list refresh, off the main thread. Skipped entirely unless a list is actually due.
+        Thread({ runCatching { adBlock.refreshSubscriptionsIfDue() } }, "adblock-subs").apply { isDaemon = true; start() }
         // Crash/kill recovery: no WebView exists yet, so any leftover private profile is stale and is deleted before first use.
         tabs.deletePrivateProfile()
         downloads.guard = {

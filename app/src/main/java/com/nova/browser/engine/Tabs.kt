@@ -237,6 +237,13 @@ object WebViewFactory {
                 val u = r.url; val scheme = u.scheme?.lowercase()
                 if (scheme == "http" || scheme == "https") {
                     if (!UrlPolicy.isAllowedNavigation(u.toString())) return true
+                    // Top-level navigations and redirect hops were never filtered before. Block ad/tracker/malware hosts here.
+                    val nav = app.adBlock.decideNavigation(u.toString(), UrlPolicy.host(tab.url))
+                    if (nav.blocked) {
+                        app.adBlock.onBlocked(nav)
+                        main.post {tab.restrictedNotice ="Blocked a redirect to ${UrlPolicy.host(u.toString()) ?: "an ad or tracking site"}."}
+                        return true
+                    }
                     routingBlocked(app)?.let { msg -> main.post { tab.restrictedNotice = msg }; return true }
                     if (scheme == "http" && prefs.httpsOnly && r.isForMainFrame) { v.loadUrl(UrlPolicy.upgradeToHttps(u.toString())); return true }
                     return false
@@ -267,6 +274,7 @@ object WebViewFactory {
             override fun onPageStarted(v: WebView, url: String, favicon: Bitmap?) {
                 tab.url = url; tab.videos.clear(); tab.restrictedNotice = null
                 val host = UrlPolicy.host(url)
+                app.adBlock.pageScript(host)?.let { v.evaluateJavascript(it, null) } // hide ad boxes early; re-applied on finish
                 if (VideoDetector.isRestrictedPlatform(host)) tab.restrictedNotice =
                     "$host does not permit third-party downloading. Shadow won't download from this site; use the site's own offline/download feature if it offers one."
             }
@@ -274,6 +282,7 @@ object WebViewFactory {
             override fun onPageFinished(v: WebView, url: String) {
                 tab.url = url; tab.title = v.title ?: url
                 tab.canGoBack = v.canGoBack(); tab.canGoForward = v.canGoForward()
+                app.adBlock.pageScript(UrlPolicy.host(url))?.let { v.evaluateJavascript(it, null) }
                 if (BridgeValidator.isTrustedPage(url)) v.evaluateJavascript(VideoDetector.SCAN_JS, null)
                 if (SessionCodec.shouldRecordHistory(tab.isPrivate, url)) app.prefs.addHistory(Site(tab.title, url))
                 if (!tab.isPrivate) app.tabs.persist()
@@ -305,7 +314,16 @@ object WebViewFactory {
                 tmp.webViewClient = object : WebViewClient() {
                     override fun shouldOverrideUrlLoading(w: WebView, r: WebResourceRequest): Boolean {
                         val target = r.url.toString()
-                        main.post { if (UrlPolicy.isAllowedNavigation(target)) onNewTab(target); w.destroy() }
+                        // A user-gesture pop-up still opens a tab, so its target is checked like any navigation.
+                        val nav = app.adBlock.decideNavigation(target, UrlPolicy.host(tab.url))
+                        main.post {
+                            when {
+                                nav.blocked -> {app.adBlock.onBlocked(nav) 
+                                tab.restrictedNotice = "Blocked a pop-up from ${UrlPolicy.host(target) ?: "an ad or tracking site"}."}
+                                UrlPolicy.isAllowedNavigation(target) -> onNewTab(target)
+                            }
+                            w.destroy()
+                        }
                         return true
                     }
                 }

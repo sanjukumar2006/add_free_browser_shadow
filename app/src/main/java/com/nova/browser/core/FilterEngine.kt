@@ -73,6 +73,15 @@ class FilterEngine private constructor(
         return FilterDecision(true, hit.category, hit.raw)
     }
 
+    /**
+     * Decision for a top-level navigation or a pop-up/redirect target. Such URLs were never checked before (the WebView only
+     * gives sub-resource requests to shouldInterceptRequest), so ad and malware hosts could open as pop-ups or redirect hops.
+     * Uses the same rules as sub-resources, but the request is typed OTHER: `$script`, `$image`, etc. rules never block a
+     * navigation, and only rules without a type restriction (or with `$~type` for other types) apply.
+     */
+    fun decideNavigation(url: String, pageHost: String?): FilterDecision =
+        decide(FilterRequest(url, pageHost, ResourceType.OTHER))
+
     private fun firstMatch(
         url: String, req: FilterRequest, reqHost: String,
         dom: Map<String, List<Rule>>, tok: Map<String, List<Rule>>, gen: List<Rule>, wantImportant: Boolean,
